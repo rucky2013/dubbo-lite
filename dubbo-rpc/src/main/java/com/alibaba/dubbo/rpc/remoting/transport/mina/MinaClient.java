@@ -415,12 +415,15 @@ public class MinaClient  implements ChannelHandler, ExchangeClient {
             // set codec.
             connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ProtocolCodecFactory(){
 
+                private ProtocolEncoder encoder = new ProtostuffDubboEncoder();
+                private ProtocolDecoder decoder = new ProtostuffDubboDecoder();
+
                 public ProtocolEncoder getEncoder() throws Exception {
-                    return new ProtostuffDubboEncoder();
+                    return encoder;
                 }
 
                 public ProtocolDecoder getDecoder() throws Exception {
-                    return new ProtostuffDubboDecoder();
+                    return decoder;
                 }
 
             }));
