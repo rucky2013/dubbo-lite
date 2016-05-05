@@ -46,30 +46,15 @@ public class DubboProtocol implements Protocol {
     private ExchangeHandler channelHandler = new ExchangeHandler() {
 
         public Object reply(Channel channel, Object message) throws RemotingException {
+            //invocation
             if (message instanceof Invocation) {
+
                 Invocation inv = (Invocation) message;
+
                 Invoker<?> invoker = getInvoker(channel, inv);
-                //如果是callback 需要处理高版本调用低版本的问题
-                if (Boolean.TRUE.toString().equals(inv.getAttachments().get(IS_CALLBACK_SERVICE_INVOKE))){
-                    String methodsStr = invoker.getUrl().getParameters().get("methods");
-                    boolean hasMethod = false;
-                    if (methodsStr == null || !methodsStr.contains(",")){
-                        hasMethod = inv.getMethodName().equals(methodsStr);
-                    } else {
-                        String[] methods = methodsStr.split(",");
-                        for (String method : methods){
-                            if (inv.getMethodName().equals(method)){
-                                hasMethod = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!hasMethod){
-                        logger.warn(new IllegalStateException("The methodName "+inv.getMethodName()+" not found in callback service interface ,invoke will be ignored. please update the api interface. url is:" + invoker.getUrl()) +" ,invocation is :"+inv );
-                        return null;
-                    }
-                }
+
                 RpcContext.getContext().setRemoteAddress(channel.getRemoteAddress());
+
                 return invoker.invoke(inv);
             }
             throw new RemotingException(channel, "Unsupported request: " +( message == null ? null : (message.getClass().getName() + ": " + message) )+ ", channel: consumer: " + channel.getRemoteAddress() + " --> provider: " + channel.getLocalAddress());
@@ -274,11 +259,11 @@ public class DubboProtocol implements Protocol {
                         handlerEvent(channel, request);
                     } else {
                         if (request.isTwoWay()) {
-                            logger.info("Request ["+request+"] Is Two Way Message.");
+                            logger.debug("Request ["+request+"] Is Two Way Message.");
                             Response response = handleRequest(exchangeChannel, request);
                             channel.send(response);
                         } else {
-                            logger.info("Request ["+request+"] Is One Way Message.");
+                            logger.debug("Request ["+request+"] Is One Way Message.");
                             channelHandler.received(exchangeChannel, request.getData());
                         }
                     }
@@ -427,12 +412,9 @@ public class DubboProtocol implements Protocol {
             }
         });
 
-        //bind
+        //start mina server
         try {
-
             new MinaServer(url, delegateChannelHandler);
-
-
         } catch (RemotingException e) {
             throw new RpcException("Fail to start server(url: " + url + ") " + e.getMessage(), e);
         }
@@ -450,24 +432,14 @@ public class DubboProtocol implements Protocol {
 
 
     private Invoker<?> getInvoker(Channel channel, Invocation inv) throws RemotingException{
-        boolean isCallBackServiceInvoke = false;
-        boolean isStubServiceInvoke = false;
+
         int port = channel.getLocalAddress().getPort();
+
         String path = inv.getAttachments().get(Constants.PATH_KEY);
-        //如果是客户端的回调服务.
-        isStubServiceInvoke = Boolean.TRUE.toString().equals(inv.getAttachments().get(Constants.STUB_EVENT_KEY));
-        if (isStubServiceInvoke){
-            port = channel.getRemoteAddress().getPort();
-        }
-        //callback
-        isCallBackServiceInvoke = isClientSide(channel) && !isStubServiceInvoke;
-        if(isCallBackServiceInvoke){
-            path = inv.getAttachments().get(Constants.PATH_KEY)+"."+inv.getAttachments().get(Constants.CALLBACK_SERVICE_KEY);
-            inv.getAttachments().put(IS_CALLBACK_SERVICE_INVOKE, Boolean.TRUE.toString());
-        }
+
         String serviceKey = ProtocolUtils.serviceKey(port, path, inv.getAttachments().get(Constants.VERSION_KEY), inv.getAttachments().get(Constants.GROUP_KEY));
 
-        logger.info("Service ["+serviceKey+"] Call By : "+channel);
+        logger.debug("Service ["+serviceKey+"] Call By : "+channel);
 
         Exporter<?> exporter = exporterMap.get(serviceKey);
 
@@ -478,8 +450,13 @@ public class DubboProtocol implements Protocol {
     }
 
 
-    public <T> T refer(Class<T> type, String ip, int port) throws RpcException{
-        return getProxy(refer(type, new URL("dubbo", ip, port, type.getName())), new Class<?>[]{type});
+    public <T> T refer(Class<T> type, String ip, int port, int timeout) throws RpcException{
+        return getProxy(refer(type,
+                new URL("dubbo", ip, port, type.getName())
+                .setServiceInterface(type.getName())
+                .addParameter(Constants.VERSION_KEY, Version.getVersion())
+                .addParameter(Constants.TIMEOUT_KEY, timeout)
+        ), new Class<?>[]{type});
     }
 
 

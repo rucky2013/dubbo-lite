@@ -9,4 +9,6 @@ public interface Simple {
 
     void noBack(String text);
 
+    String testBean(SerializableBean serializableBean, NoSerializableBean noSerializableBean);
+
 }

@@ -3,7 +3,6 @@
  *
  */
 package com.alibaba.dubbo.common.utils;
-
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 
@@ -31,22 +30,5 @@ public class ProtocolUtils {
         buf.append(":");
         buf.append(port);
         return buf.toString();
-    }
-
-    public static boolean isGeneric(String generic) {
-        return generic != null
-            && !"".equals(generic)
-            && (Constants.GENERIC_SERIALIZATION_DEFAULT.equalsIgnoreCase(generic)  /* 正常的泛化调用 */
-            || Constants.GENERIC_SERIALIZATION_NATIVE_JAVA.equalsIgnoreCase(generic)); /* 支持java序列化的流式泛化调用 */
-    }
-
-    public static boolean isDefaultGenericSerialization(String generic) {
-        return isGeneric(generic)
-            && Constants.GENERIC_SERIALIZATION_DEFAULT.equalsIgnoreCase(generic);
-    }
-
-    public static boolean isJavaGenericSerialization(String generic) {
-        return isGeneric(generic)
-            && Constants.GENERIC_SERIALIZATION_NATIVE_JAVA.equalsIgnoreCase(generic);
     }
 }

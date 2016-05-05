@@ -237,7 +237,7 @@ public class MinaServer implements ChannelHandler, Server{
         acceptor.bind(bindAddress, new IoHandlerAdapter() {
 
             public void sessionOpened(IoSession session) throws Exception {
-                logger.warn("Mina Server Session Opened: "+session);
+                logger.debug("Mina Server Session Opened: "+session);
                 MinaChannel channel = MinaChannel.getOrAddChannel(session, url, delegate);
                 try {
                     connected(channel);
@@ -247,7 +247,7 @@ public class MinaServer implements ChannelHandler, Server{
             }
 
             public void sessionClosed(IoSession session) throws Exception {
-                logger.warn("Mina Server Session Closed: "+session);
+                logger.debug("Mina Server Session Closed: "+session);
                 MinaChannel channel = MinaChannel.getOrAddChannel(session, url, delegate);
                 try {
                     disconnected(channel);
@@ -257,7 +257,7 @@ public class MinaServer implements ChannelHandler, Server{
             }
 
             public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-                logger.warn("Mina Server Exception Caught: "+session+", Exception: "+cause);
+                logger.debug("Mina Server Exception Caught: "+session+", Exception: "+cause);
                 MinaChannel channel = MinaChannel.getOrAddChannel(session, url, delegate);
                 try {
                     caught(channel, cause);
@@ -267,7 +267,7 @@ public class MinaServer implements ChannelHandler, Server{
             }
 
             public void messageReceived(IoSession session, Object message) throws Exception {
-                logger.warn("Mina Server Message Received: "+session+", Message: "+message);
+                logger.debug("Mina Server Message Received: "+session+", Message: "+message);
                 MinaChannel channel = MinaChannel.getOrAddChannel(session, url, delegate);
                 try {
                     received(channel, message);
@@ -277,7 +277,7 @@ public class MinaServer implements ChannelHandler, Server{
             }
 
             public void messageSent(IoSession session, Object message) throws Exception {
-                logger.warn("Mina Server Message Sent: "+session+", Message: "+message);
+                logger.debug("Mina Server Message Sent: "+session+", Message: "+message);
                 MinaChannel channel = MinaChannel.getOrAddChannel(session, url, delegate);
                 try {
                     sent(channel, message);

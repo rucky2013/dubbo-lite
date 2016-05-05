@@ -6,9 +6,4 @@ public class Version {
     public static String getVersion(){
         return VERSION;
     }
-
-
-    public static boolean isCompatibleVersion() {
-        return true;
-    }
 }

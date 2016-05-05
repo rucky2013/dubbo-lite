@@ -8,6 +8,7 @@ import javassist.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -375,6 +376,16 @@ public final class ClassGenerator
 					}
 				}
 			}
+//
+//			try {
+//				byte[] b = mCtc.toBytecode();
+//				FileOutputStream fos = new FileOutputStream(new File("/home/xyp/App/"+mCtc.getName()+".class"));
+//				fos.write(b);
+//
+//				fos.close();
+//			}catch (Exception e){
+//				System.out.println(e.getMessage());
+//			}
 			return mCtc.toClass(ClassHelper.getCallerClassLoader(getClass()), null);
 		}
 		catch(RuntimeException e)
