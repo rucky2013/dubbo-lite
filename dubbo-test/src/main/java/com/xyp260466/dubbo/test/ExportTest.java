@@ -28,6 +28,9 @@ public class ExportTest {
         //export a service
         protocol.export(new SimpleImpl(), Simple.class, 2880);
 
+        //export a second service
+        protocol.export(new TwoImpl(), Two.class, 2880);
+
         System.out.println("export complete.");
 
 

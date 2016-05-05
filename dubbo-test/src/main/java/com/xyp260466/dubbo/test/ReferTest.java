@@ -39,7 +39,12 @@ public class ReferTest {
     public void main() {
 
         try {
-            Simple invoker = new DubboProtocol().refer(Simple.class, "127.0.0.1", 2880, 3600);
+            DubboProtocol protocol = new DubboProtocol();
+
+
+            Simple invoker = protocol.refer(Simple.class, "127.0.0.1", 2880, 3600);
+
+            Two invoker2 = protocol.refer(Two.class, "127.0.0.1", 2880, 3600);
 
             String s = invoker.sayHello(name);
 
@@ -48,6 +53,13 @@ public class ReferTest {
             invoker.noBack("this is no back Message "+i);
 
             System.out.println("ID "+i+" : "+invoker.testBean(new SerializableBean(""+i, name, 18, new Date()), new NoSerializableBean(i, name, new Date())));
+
+
+            Date d = new Date();
+            System.out.println("ID "+i+" : "+d);
+            System.out.println("ID "+i+" : "+invoker2.twoMethod(i, name, d));
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
