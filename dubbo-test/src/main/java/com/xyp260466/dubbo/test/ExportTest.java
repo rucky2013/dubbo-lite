@@ -20,7 +20,15 @@ public class ExportTest {
 
             }
         }).start();
-        new DubboProtocol().export(new SimpleImpl(), Simple.class, 2880);
+        System.out.println("export starting...");
+
+        //initialize a protocol
+        DubboProtocol protocol = new DubboProtocol();
+
+        //export a service
+        protocol.export(new SimpleImpl(), Simple.class, 2880);
+
+        System.out.println("export complete.");
 
 
     }

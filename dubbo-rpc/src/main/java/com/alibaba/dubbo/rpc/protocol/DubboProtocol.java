@@ -33,6 +33,9 @@ public class DubboProtocol implements Protocol {
     //logger
     private static final Logger logger = Logger.getLogger(DubboProtocol.class);
 
+    //server map
+    private final Map<String, Server> serverMap = new ConcurrentHashMap<String, Server>(); // <host:port,Exchanger>
+
     //exporter map
     private final Map<String, Exporter<?>> exporterMap = new ConcurrentHashMap<String, Exporter<?>>();
 
@@ -414,12 +417,28 @@ public class DubboProtocol implements Protocol {
 
         //start mina server
         try {
-            new MinaServer(url, delegateChannelHandler);
+            openServer(url);
         } catch (RemotingException e) {
             throw new RpcException("Fail to start server(url: " + url + ") " + e.getMessage(), e);
         }
 
         return exporter;
+    }
+
+    private void openServer(URL url) throws RemotingException {
+        // find server.
+        String key = url.getAddress();
+        //client 也可以暴露一个只有server可以调用的服务。
+        boolean isServer = url.getParameter(Constants.IS_SERVER_KEY, true);
+        if (isServer) {
+            Server server = serverMap.get(key);
+            if (server == null) {
+                serverMap.put(key, new MinaServer(url, delegateChannelHandler));
+            } else {
+                //server支持reset,配合override功能使用
+                server.reset(url);
+            }
+        }
     }
 
     private boolean isClientSide(Channel channel) {

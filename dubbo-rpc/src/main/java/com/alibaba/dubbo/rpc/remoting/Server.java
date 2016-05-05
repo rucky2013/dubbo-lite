@@ -4,10 +4,12 @@
  */
 package com.alibaba.dubbo.rpc.remoting;
 
+import com.alibaba.dubbo.common.Resetable;
+
 import java.net.InetSocketAddress;
 import java.util.Collection;
 
-public interface Server extends Endpoint {
+public interface Server extends Endpoint, Resetable {
     
     /**
      * is bound.
