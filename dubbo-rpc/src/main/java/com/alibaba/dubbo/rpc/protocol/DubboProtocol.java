@@ -261,16 +261,16 @@ public class DubboProtocol implements Protocol {
                     if (request.isEvent()) {
                         handlerEvent(channel, request);
                     } else {
+                        logger.debug("Request ["+request+"]");
                         if (request.isTwoWay()) {
-                            logger.debug("Request ["+request+"] Is Two Way Message.");
                             Response response = handleRequest(exchangeChannel, request);
                             channel.send(response);
                         } else {
-                            logger.debug("Request ["+request+"] Is One Way Message.");
                             channelHandler.received(exchangeChannel, request.getData());
                         }
                     }
                 } else if (message instanceof Response) {
+                    logger.debug("Response ["+message+"]");
                     handleResponse(channel, (Response) message);
                 }else {
                     channelHandler.received(exchangeChannel, message);
