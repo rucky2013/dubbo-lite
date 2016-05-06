@@ -14,3 +14,17 @@ Dubbo 高性能升级版本，简单，高效
 7、相比dubbo原始框架，代码结构清晰，有助于阅读及参考<br/>
 8、欢迎积极扩展!<br/>
 
+使用非常简单：<br/>
+
+发布服务：<br/>
+//initialize a protocol<br/>
+DubboProtocol protocol = new DubboProtocol();<br/>
+<br/>
+//export a service<br/>
+protocol.export(new SimpleImpl(), Simple.class, 2880);<br/>
+
+消费服务：<br/>
+//initialize a protocol<br/>
+DubboProtocol protocol = new DubboProtocol();<br/>
+<br/>
+Simple invoker = protocol.refer(Simple.class, "127.0.0.1", 2880, 3600);<br/>
