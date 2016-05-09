@@ -34,7 +34,7 @@ Spring集成：<br/>
 <br/>
 在Spring配置文件中加入如下内容:<br/>
 <br/>
-<dubbo:annotation-driven/><br/>
+&lt;dubbo:annotation-driven/&gt;<br/>
 <br/>
 
 消费服务：加上@Consumer注解<br/>
