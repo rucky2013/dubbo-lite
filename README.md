@@ -44,3 +44,7 @@ private SimpleProvider simpleProvider;<br/>
 发布服务：加上@Provider注解<br/>
 @Provider<br/>
 public class SimpleProviderImpl implements SimpleProvider <br/>
+
+<br/>
+
+如果你想联系作者：<a href="mailto:xyp260466@sina.com">发送邮件(1)</a>;<a href="mailto:xyp260466@163.com">发送邮件(2)</a>
