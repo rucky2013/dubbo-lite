@@ -32,6 +32,11 @@ Simple invoker = protocol.refer(Simple.class, "127.0.0.1", 2880, 3600);<br/>
 Spring集成：<br/>
 从此Spring集成将会变的非常简单<br/>
 <br/>
+在Spring配置文件中加入如下内容:<br/>
+<br/>
+<dubbo:annotation-driven/><br/>
+<br/>
+
 消费服务：加上@Consumer注解<br/>
 @Consumer<br/>
 private SimpleProvider simpleProvider;<br/>
