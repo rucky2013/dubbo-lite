@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://code.xyp260466.com/schema/dubbo"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tool="http://www.springframework.org/schema/tool"
+	targetNamespace="http://code.xyp260466.com/schema/dubbo">
+	
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+	<xsd:import namespace="http://www.springframework.org/schema/tool"/>
+
+	<xsd:annotation>
+		<xsd:documentation><![CDATA[ Namespace support for the dubbo services provided by dubbo framework. ]]></xsd:documentation>
+	</xsd:annotation>
+
+
+	<xsd:element name="annotation-driven">
+		<xsd:annotation>
+			<xsd:documentation source="java:com.xyp260466.dubbo.creator.AutoBeanCreator"><![CDATA[
+		Enables the use of the @Consumer & @Provider style of Spring AOP.
+				]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+</xsd:schema>

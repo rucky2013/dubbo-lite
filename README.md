@@ -28,3 +28,14 @@ protocol.export(new SimpleImpl(), Simple.class, 2880);<br/>
 DubboProtocol protocol = new DubboProtocol();<br/>
 <br/>
 Simple invoker = protocol.refer(Simple.class, "127.0.0.1", 2880, 3600);<br/>
+
+Spring集成：<br/>
+从此Spring集成将会变的非常简单<br/>
+<br/>
+消费服务：加上@Consumer注解<br/>
+@Consumer<br/>
+private SimpleProvider simpleProvider;<br/>
+<br/>
+发布服务：加上@Provider注解<br/>
+@Provider<br/>
+public class SimpleProviderImpl implements SimpleProvider <br/>
