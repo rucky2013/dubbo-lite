@@ -16,10 +16,22 @@
 
 	<xsd:element name="annotation-driven">
 		<xsd:annotation>
-			<xsd:documentation source="java:com.xyp260466.dubbo.creator.AutoBeanCreator"><![CDATA[
-		Enables the use of the @Consumer & @Provider style of Spring AOP.
-				]]></xsd:documentation>
+			<xsd:documentation><![CDATA[
+	Scans the classpath for annotated components that will be auto-registered as
+	Spring beans. By default, the Dubbo-provided @Provider, @Interface,
+	@Consumer stereotypes will be detected.
+			]]></xsd:documentation>
 		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="base-package" type="xsd:string"
+						   use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The comma-separated list of packages to scan for annotated components.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
 	</xsd:element>
 	
 </xsd:schema>

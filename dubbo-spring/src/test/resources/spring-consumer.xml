@@ -12,6 +12,6 @@
 
     <context:component-scan base-package="com.xyp260466.dubbo.test.consumer"/>
 
-    <dubbo:annotation-driven/>
+    <dubbo:annotation-driven base-package="com.xyp260466.dubbo.test.consumer"/>
 
 </beans>

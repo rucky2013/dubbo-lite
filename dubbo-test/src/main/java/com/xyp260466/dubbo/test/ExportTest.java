@@ -1,5 +1,6 @@
 package com.xyp260466.dubbo.test;
 
+import com.alibaba.dubbo.rpc.Protocol;
 import com.alibaba.dubbo.rpc.protocol.DubboProtocol;
 
 /**
@@ -22,8 +23,8 @@ public class ExportTest {
         }).start();
         System.out.println("export starting...");
 
-        //initialize a protocol
-        DubboProtocol protocol = new DubboProtocol();
+        //initialize a protocol-
+        Protocol protocol = DubboProtocol.getProtocol();
 
         //export a service
         protocol.export(new SimpleImpl(), Simple.class, 2880);

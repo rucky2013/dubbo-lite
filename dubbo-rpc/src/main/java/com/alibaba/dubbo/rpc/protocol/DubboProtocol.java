@@ -30,6 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DubboProtocol implements Protocol {
 
+
+    private static Protocol PROTOCOL = new DubboProtocol();
+
     //logger
     private static final Logger logger = Logger.getLogger(DubboProtocol.class);
 
@@ -44,6 +47,15 @@ public class DubboProtocol implements Protocol {
 
 
     private static final String IS_CALLBACK_SERVICE_INVOKE = "_isCallBackServiceInvoke";
+
+
+    private DubboProtocol(){
+
+    }
+
+    public static Protocol getProtocol(){
+        return PROTOCOL;
+    }
 
 
     private ExchangeHandler channelHandler = new ExchangeHandler() {
@@ -466,6 +478,10 @@ public class DubboProtocol implements Protocol {
             throw new RemotingException(channel, "Not found exported service: " + serviceKey + " in " + exporterMap.keySet() + ", may be version or group mismatch " + ", channel: consumer: " + channel.getRemoteAddress() + " --> provider: " + channel.getLocalAddress() + ", message:" + inv);
 
         return exporter.getInvoker();
+    }
+
+    public <T> T refer(Class<T> type, String ip, int port) throws RpcException{
+        return refer(type, ip, port, 1000);
     }
 
 

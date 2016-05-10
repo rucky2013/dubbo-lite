@@ -59,6 +59,38 @@ public interface Protocol {
      */
     <T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
 
+
+    /**
+     * * 引用远程服务：<br>
+     * 1. 当用户调用refer()所返回的Invoker对象的invoke()方法时，协议需相应执行同URL远端export()传入的Invoker对象的invoke()方法。<br>
+     * 2. refer()返回的Invoker由协议实现，协议通常需要在此Invoker中发送远程请求。<br>
+     * 3. 当url中有设置check=false时，连接失败不能抛出异常，并内部自动恢复。<br>
+     *
+     * @param type
+     * @param ip
+     * @param port
+     * @param <T>
+     * @return
+     * @throws RpcException
+     */
+    <T> T refer(Class<T> type, String ip, int port) throws RpcException;
+
+
+    /**
+     * * 引用远程服务：<br>
+     * 1. 当用户调用refer()所返回的Invoker对象的invoke()方法时，协议需相应执行同URL远端export()传入的Invoker对象的invoke()方法。<br>
+     * 2. refer()返回的Invoker由协议实现，协议通常需要在此Invoker中发送远程请求。<br>
+     * 3. 当url中有设置check=false时，连接失败不能抛出异常，并内部自动恢复。<br>
+     * @param type
+     * @param ip
+     * @param port
+     * @param timeout
+     * @param <T>
+     * @return
+     * @throws RpcException
+     */
+    <T> T refer(Class<T> type, String ip, int port, int timeout) throws RpcException;
+
     /**
      * 引用远程服务：<br>
      * 1. 当用户调用refer()所返回的Invoker对象的invoke()方法时，协议需相应执行同URL远端export()传入的Invoker对象的invoke()方法。<br>

@@ -1,4 +1,5 @@
 package com.xyp260466.dubbo.test;
+import com.alibaba.dubbo.rpc.Protocol;
 import com.alibaba.dubbo.rpc.protocol.DubboProtocol;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ public class ReferTest {
     public void main() {
 
         try {
-            DubboProtocol protocol = new DubboProtocol();
+            Protocol protocol = DubboProtocol.getProtocol();
 
 
             Simple invoker = protocol.refer(Simple.class, "127.0.0.1", 2880, 3600);
