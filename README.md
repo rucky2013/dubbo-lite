@@ -76,3 +76,7 @@ public class SimpleProviderImpl implements SimpleProvider <br/>
 <br/>
 
 如果你想联系作者：<a href="mailto:xyp260466@sina.com">发送邮件(1)</a>;<a href="mailto:xyp260466@163.com">发送邮件(2)</a>
+
+<br/>
+
+blog: http://blog.csdn.net/xyp260466/article/details/51364614
