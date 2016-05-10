@@ -41,6 +41,7 @@ Simple invoker = protocol.refer(Simple.class, "127.0.0.1", 2880, 3600);<br/>
 <br/>
 Spring配置文件范例：<br/>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<br/>
 &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
        xmlns:dubbo=&quot;http://code.xyp260466.com/schema/dubbo&quot;
@@ -52,13 +53,16 @@ Spring配置文件范例：<br/>
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
 <br/>
+<br/>
     &lt;context:component-scan base-package=&quot;com.xyp260466.dubbo.test.provider&quot;/&gt;
+<br/>
 <br/>
     &lt;dubbo:annotation-driven base-package=&quot;com.xyp260466.dubbo.test.provider&quot;/&gt;
 <br/>
+<br/>
 &lt;/beans&gt;
 <br/>
-
+<br/>
 
 消费服务：加上@Consumer注解<br/>
 @Consumer<br/>
