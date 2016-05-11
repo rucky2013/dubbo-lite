@@ -1,6 +1,7 @@
 package com.xyp260466.dubbo.test;
 
 import com.alibaba.dubbo.rpc.protocol.DubboProtocol;
+import com.xyp260466.dubbo.test.provider.OtherService;
 import com.xyp260466.dubbo.test.provider.SimpleProvider;
 import org.apache.log4j.Logger;
 
@@ -17,6 +18,10 @@ public class CallSpringService {
         SimpleProvider simpleProvider = DubboProtocol.getProtocol().refer(SimpleProvider.class, "127.0.0.1", 20880);
 
         System.out.println("Spring Dubbo Service Result: "+simpleProvider.providerMethod("xiaoming"));
+
+        OtherService otherService = DubboProtocol.getProtocol().refer(OtherService.class, "127.0.0.1", 20880);
+
+        System.out.println("Spring Other Dubbo Service Result: "+otherService.getData("xiaoming"));
 
 
 
