@@ -1,3 +1,9 @@
+/**
+ * this is for @Provider Scan For Dubbo Export Services
+ *
+ * @author xiaoyuepeng
+ */
+
 package org.springframework.context.annotation;
 
 import com.xyp260466.dubbo.annotation.Provider;

@@ -4,6 +4,7 @@ import com.xyp260466.dubbo.annotation.Provider;
 import com.xyp260466.dubbo.annotation.Interface;
 import com.xyp260466.dubbo.beans.ProviderBean;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.DubboConsumerAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
@@ -31,12 +32,16 @@ public class AutoBeanDefinitionParser extends ComponentScanBeanDefinitionParser 
 
     private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
+    public static final String CONSUMER_ANNOTATION_PROCESSOR_BEAN_NAME =
+            "org.springframework.context.annotation.internalDubboConsumerAnnotationProcessor";
+
     private static final Logger logger = Logger.getLogger(AutoBeanDefinitionParser.class);
 
     public BeanDefinition parse(Element element, ParserContext parserContext) {
 
         logger.info("Parse Dubbo Services.");
 
+        //do with provider
         String[] basePackages = StringUtils.tokenizeToStringArray(element.getAttribute(BASE_PACKAGE_ATTRIBUTE),
                 ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
@@ -47,6 +52,7 @@ public class AutoBeanDefinitionParser extends ComponentScanBeanDefinitionParser 
         Set<BeanDefinitionHolder> beanDefinitions = scanner.scanComplete(basePackages);
 
         registerComponents(parserContext.getReaderContext(), beanDefinitions, element);
+
 
         for(BeanDefinitionHolder holder : beanDefinitions){
 
@@ -109,6 +115,13 @@ public class AutoBeanDefinitionParser extends ComponentScanBeanDefinitionParser 
                 }
             }
         }
+
+        //do with consumer
+        RootBeanDefinition def = new RootBeanDefinition(DubboConsumerAnnotationBeanPostProcessor.class);
+        def.setSource(parserContext.getReaderContext().extractSource(element));
+        def.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        parserContext.getReaderContext().getRegistry().registerBeanDefinition(CONSUMER_ANNOTATION_PROCESSOR_BEAN_NAME, def);
+
         return null;
     }
 
