@@ -16,7 +16,7 @@ public class SpringConsumerTest {
         SimpleConsumer consumer = (SimpleConsumer) context.getBean("consumer");
 
 
-        System.out.println(consumer.sayHello("xiaoming"));
+        System.out.println(consumer.sayHello("consumer!"));
 
 
 

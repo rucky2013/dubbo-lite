@@ -29,7 +29,7 @@ import com.xyp260466.dubbo.annotation.Provider;
 public class SimpleProviderImpl implements SimpleProvider {
 
     public String providerMethod(String parameter) {
-        return "SimpleProvider Result: "+parameter;
+        return "SimpleProvider.providerMethod() : "+parameter;
     }
 
 }

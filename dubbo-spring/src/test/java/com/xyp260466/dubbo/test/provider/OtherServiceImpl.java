@@ -17,7 +17,7 @@ public class OtherServiceImpl implements OtherService{
     public String getData(String parameter){
 
 
-        return springService.doSomething() + " world!";
+        return "OtherService.getData() : [ SpringService.doSomething() : "+springService.doSomething() + ", "+parameter+" ]";
     }
 
 }
